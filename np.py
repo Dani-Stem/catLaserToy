@@ -7,6 +7,8 @@ import datetime
 import imutils
 import time
 import cv2
+import serial
+
 
 stdDev = [10, 20]
 
@@ -30,8 +32,10 @@ def nextPos(boxPos, stdDev):
     return np.random.normal(boxPos, stdDev)
 
 
-def output(param):
-    # Serial ouput yaw and pitch
+def output(x,y):
+    ser = serial.Serial('/dev/ttyACM0')
+    val = bytearray([x, y])
+    ser.write(val)
     return
 
 # construct the argument parser and parse the arguments
@@ -112,7 +116,7 @@ while True:
     xMid = x + w/2
     yMid = y + h/2
     
-    
+    output(xMid, yMid)
 
    # nPos = nextPos( [params[0], params[1]], stdDev ) # Next Laser Position 
     #[roll, pitch] = xy_2_py(nPos[0], nPos[1])
